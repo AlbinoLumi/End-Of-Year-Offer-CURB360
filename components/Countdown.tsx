@@ -35,7 +35,7 @@ const Countdown: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full bg-brandBlue/5 backdrop-blur-sm border-y border-brandBlue/10 py-6 relative overflow-hidden">
+    <div className="w-full bg-white backdrop-blur-sm border-y border-brandBlue/10 py-6 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute right-10 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none hidden md:block">
         <Snowflake size={80} className="text-brandBlue" />
