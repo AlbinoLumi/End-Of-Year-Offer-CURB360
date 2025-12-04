@@ -1,0 +1,141 @@
+import React from 'react';
+import { Package } from '../types';
+import { Camera, Layers, Zap, Check, Snowflake } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+interface PackagesProps {
+  onOpenModal: (packageId: string) => void;
+}
+
+const packages: Package[] = [
+  {
+    id: 'p1',
+    name: 'The Jumpstart',
+    spend: 250,
+    back: 125,
+    description: 'Perfect for getting started with premium photos and 3D tours for your listings.',
+    features: ['Premium HDR Photography', '3D Virtual Tour', 'Flexibility to Use Credits'],
+    icon: <Camera size={32} />,
+  },
+  {
+    id: 'p2',
+    name: 'The Power Pack',
+    spend: 500,
+    back: 250,
+    description: 'Supercharge your listings with more photos, floor plans, and aerial shots.',
+    features: ['Interactive Floor Plan', 'Aerial Drone Photography', 'Virtual Twilight', 'Flexibility to Use Credits'],
+    icon: <Layers size={32} />,
+  },
+  {
+    id: 'p3',
+    name: 'The Ultimate Advantage',
+    spend: 1000,
+    back: 500,
+    description: 'Maximize your listings for 2026 with full virtual tours, extra photos, and custom add-ons.',
+    features: ['Cinematic Video Tour', 'Interactive Virtual Tour', 'Flexibility to Use Credits'],
+    icon: <Zap size={32} />,
+  }
+];
+
+const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
+  return (
+    <section id="packages" className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+        {/* Festive background elements */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-50">
+             <div className="absolute top-10 left-10 text-iceBlue opacity-40 transform rotate-12"><Snowflake size={64} /></div>
+             <div className="absolute bottom-20 right-10 text-brandRed opacity-10 transform -rotate-12"><Snowflake size={96} /></div>
+             <div className="absolute top-40 right-20 text-iceBlue opacity-30 transform rotate-45"><Snowflake size={48} /></div>
+        </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-brandBlue mb-4">
+            Your Bonus Credit Options
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Choose your package below and lock in your <span className="font-bold text-brandRed">50% bonus</span> for 2026!
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {packages.map((pkg, index) => (
+            <motion.div
+              key={pkg.id}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className={`relative bg-white rounded-2xl p-8 border-2 ${
+                index === 2 ? 'border-brandRed shadow-2xl scale-105 z-20' : 'border-gray-100 shadow-xl hover:border-brandRed/30'
+              } transition-all duration-300 flex flex-col`}
+            >
+              {index === 2 && (
+                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-brandBlue text-white px-4 py-1 rounded-full text-sm font-bold shadow-md whitespace-nowrap">
+                    MOST POPULAR
+                 </div>
+              )}
+
+              <div className={`p-4 rounded-xl inline-flex self-center mb-6 ${
+                  index === 2 ? 'bg-brandRed text-white' : 'bg-brandBlue/5 text-brandBlue'
+              }`}>
+                {pkg.icon}
+              </div>
+
+              <h3 className="text-2xl font-bold text-brandBlue text-center mb-2">{pkg.name}</h3>
+              
+              <div className="text-center mb-6">
+                <p className="text-gray-500 font-medium">Spend ${pkg.spend}</p>
+                <div className="flex items-center justify-center gap-2 mt-2">
+                    <span className="text-gray-400 font-bold text-lg">GET</span>
+                    <span className="text-4xl font-extrabold text-brandRed">${pkg.back}</span>
+                    <span className="text-gray-400 font-bold text-lg">BACK</span>
+                </div>
+              </div>
+
+              <p className="text-center text-gray-600 mb-8 h-16">
+                {pkg.description}
+              </p>
+
+              <ul className="space-y-4 mb-8 flex-grow">
+                {pkg.features.map((feature, i) => (
+                  <li key={i} className="flex items-start text-gray-700">
+                    <div className="mr-3 text-green-500 bg-green-50 p-1 rounded-full flex-shrink-0 mt-0.5">
+                        <Check size={14} strokeWidth={3} />
+                    </div>
+                    <span className="text-sm md:text-base">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <button 
+                onClick={() => onOpenModal(pkg.id)}
+                className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-[1.02] ${
+                  index === 2 
+                    ? 'bg-brandRed text-white hover:bg-red-600 shadow-lg hover:shadow-brandRed/40' 
+                    : 'bg-brandBlue text-white hover:bg-slate-800 shadow-md'
+              }`}>
+                Choose {pkg.name}
+              </button>
+            </motion.div>
+          ))}
+        </div>
+        
+        {/* Credits Availability Note */}
+        <div className="mt-16 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 rounded-2xl transform -skew-y-1"></div>
+            <div className="relative bg-white border border-blue-100 rounded-2xl p-8 shadow-sm text-center">
+                <div className="inline-block p-3 bg-blue-100 text-brandBlue rounded-full mb-4">
+                    <Snowflake className="animate-pulse" size={24} />
+                </div>
+                <h4 className="text-xl font-bold text-brandBlue mb-2">Important Note</h4>
+                <p className="text-gray-600 text-lg leading-relaxed max-w-4xl mx-auto">
+                    The credits you receive can be used for any service in the future, including professional photos, virtual tours, floor plans, aerial shots, and more. They are not restricted to just the features in the packages above, giving you the flexibility to choose the services that best fit your needs.
+                </p>
+            </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Packages;
