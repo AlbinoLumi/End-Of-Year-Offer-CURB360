@@ -23,13 +23,23 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, packageId 
 
   // Determine which form URL to use
   const isJumpstart = packageId === 'p1';
+  const isPowerPack = packageId === 'p2';
+  const isUltimateAdvantage = packageId === 'p3';
   
   const formUrl = isJumpstart
     ? 'https://forms.zohopublic.com/curb360/form/GET250TOSPENDWITHCURB360ONANYPACKAGEIN2024/formperma/RWj3f1k8hsNQbkVZP8UhrFGaMPfBFJwM8BDNWBqSpSs'
+    : isPowerPack
+    ? 'https://forms.zohopublic.com/curb360/form/ThePowerPackSpend500Get250inCredits/formperma/Xi3JVrORjIf7HbEU-ZBkrX_T1IK_4bWueVR9f-6BdH0'
+    : isUltimateAdvantage
+    ? 'https://forms.zohopublic.com/curb360/form/TheUltimatePackSpend1000Get500inCredits/formperma/Kf0hgGZdCI14OeXPHBz9pzl9Z6K0HLrBQ7iJNj99Wy8'
     : 'https://forms.zohopublic.com/curb360/form/GETFREECREDITTOUSENOWORIN2024/formperma/PcvtGxFd-38ZnFoz4kXBHrcT4pcK20X4WqbPMHisGAU';
 
   const ariaLabel = isJumpstart
     ? 'Jumpstart Your Listings – Spend $250, Get $125 in Credits!'
+    : isPowerPack
+    ? 'The Power Pack – Spend $500, Get $250 in Credits!'
+    : isUltimateAdvantage
+    ? 'The Ultimate Pack – Spend $1000, Get $500 in Credits!'
     : 'GET $250 TO SPEND WITH CURB360 ON ANY PACKAGE IN 2024!';
 
   return (
