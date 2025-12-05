@@ -13,8 +13,8 @@ const packages: Package[] = [
     name: 'The Jumpstart',
     spend: 250,
     back: 125,
-    description: 'Perfect for getting started with premium photos and 3D tours for your listings.',
-    features: ['Premium HDR Photography', '3D Virtual Tour', 'Flexibility to Use Credits'],
+    description: 'A simple way to lock in savings and set up your 2026 media budget.',
+    features: ['50 percent bonus credit value', 'Works for any CURB360 media services', 'Full flexibility on how and when credits are used in 2026'],
     icon: <Camera size={32} />,
   },
   {
@@ -22,8 +22,8 @@ const packages: Package[] = [
     name: 'The Power Pack',
     spend: 500,
     back: 250,
-    description: 'Supercharge your listings with more photos, floor plans, and aerial shots.',
-    features: ['Interactive Floor Plan', 'Aerial Drone Photography', 'Virtual Twilight', 'Flexibility to Use Credits'],
+    description: 'A balanced credit bundle for agents who want more flexibility throughout the year.',
+    features: ['250 dollars in bonus credits', 'Ideal for ongoing media needs', 'Credits can be applied to any services in 2026'],
     icon: <Layers size={32} />,
   },
   {
@@ -31,8 +31,8 @@ const packages: Package[] = [
     name: 'The Ultimate Advantage',
     spend: 1000,
     back: 500,
-    description: 'Maximize your listings for 2026 with full virtual tours, extra photos, and custom add-ons.',
-    features: ['Cinematic Video Tour', 'Interactive Virtual Tour', 'Flexibility to Use Credits'],
+    description: 'Our best value option with maximum savings for your 2026 marketing plans.',
+    features: ['500 dollars in bonus credits', 'Best for agents with steady listing volume', 'Credits work across all CURB360 media services in 2026'],
     icon: <Zap size={32} />,
   }
 ];
@@ -50,10 +50,10 @@ const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-extrabold text-brandBlue mb-4">
-            Your Bonus Credit Options
+            Pick Your 2026 Cash Credit Power Up
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Choose your package below and lock in your <span className="font-bold text-brandRed">50% bonus</span> for 2026!
+            Choose your package below and lock in your <span className="font-bold text-brandRed">50% cash bonus</span> to use in 2026!
           </p>
         </div>
 
@@ -129,7 +129,7 @@ const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
                 </div>
                 <h4 className="text-xl font-bold text-brandBlue mb-2">Important Note</h4>
                 <p className="text-gray-600 text-lg leading-relaxed max-w-4xl mx-auto">
-                    The credits you receive can be used for any service in the future, including professional photos, virtual tours, floor plans, aerial shots, and more. They are not restricted to just the features in the packages above, giving you the flexibility to choose the services that best fit your needs.
+                    Your cash credits work across all CURB360 media services in 2026. You have full flexibility on how and when to use them - whether for professional photos, virtual tours, floor plans, aerial shots, or any other services that best fit your needs throughout the year.
                 </p>
             </div>
         </div>

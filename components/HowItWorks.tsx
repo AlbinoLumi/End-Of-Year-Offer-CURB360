@@ -1,5 +1,5 @@
 import React from 'react';
-import { Gift, Sparkles, Snowflake } from 'lucide-react';
+import { Calendar, CreditCard, TrendingUp } from 'lucide-react';
 
 const HowItWorks: React.FC = () => {
   return (
@@ -19,10 +19,10 @@ const HowItWorks: React.FC = () => {
            <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gray-200 -z-1 border-t-2 border-dashed border-gray-300"></div>
 
           <div className="flex flex-col items-center text-center group">
-            <div className="w-24 h-24 bg-gradient-to-br from-red-50 to-red-100 rounded-full flex items-center justify-center mb-6 relative group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Gift size={40} className="text-brandRed" />
+            <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 relative group-hover:scale-110 transition-transform duration-300">
+                <Calendar size={40} className="text-brandBlue group-hover:opacity-0 transition-opacity duration-300" />
+                <span className="absolute text-5xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">🎅</span>
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-brandRed text-white rounded-full flex items-center justify-center font-bold shadow-md">1</div>
-                <div className="absolute -top-1 -left-1 text-2xl animate-bounce" style={{ animationDelay: '0s' }}>🎅</div>
             </div>
             <h3 className="text-xl font-bold text-brandBlue mb-3">Book & Pay Now</h3>
             <p className="text-gray-600">
@@ -31,10 +31,10 @@ const HowItWorks: React.FC = () => {
           </div>
 
           <div className="flex flex-col items-center text-center group">
-            <div className="w-24 h-24 bg-gradient-to-br from-purple-50 to-purple-100 rounded-full flex items-center justify-center mb-6 relative group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Sparkles size={40} className="text-brandRed" />
+            <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 relative group-hover:scale-110 transition-transform duration-300">
+                <CreditCard size={40} className="text-brandBlue group-hover:opacity-0 transition-opacity duration-300" />
+                <span className="absolute text-5xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ filter: 'drop-shadow(0 0 10px rgba(255, 0, 0, 0.8))' }}>🦌</span>
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-brandRed text-white rounded-full flex items-center justify-center font-bold shadow-md">2</div>
-                <div className="absolute -top-1 -left-1 text-2xl animate-pulse" style={{ animationDelay: '0.5s' }}>✨</div>
             </div>
             <h3 className="text-xl font-bold text-brandBlue mb-3">Get an Instant 50% Credit Boost!</h3>
             <p className="text-gray-600">
@@ -43,12 +43,12 @@ const HowItWorks: React.FC = () => {
           </div>
 
           <div className="flex flex-col items-center text-center group">
-             <div className="w-24 h-24 bg-gradient-to-br from-blue-50 to-blue-100 rounded-full flex items-center justify-center mb-6 relative group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Snowflake size={40} className="text-brandBlue" />
+             <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 relative group-hover:scale-110 transition-transform duration-300">
+                <TrendingUp size={40} className="text-brandBlue group-hover:opacity-0 transition-opacity duration-300" />
+                <span className="absolute text-5xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">❄️</span>
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-brandRed text-white rounded-full flex items-center justify-center font-bold shadow-md">3</div>
-                <div className="absolute -top-1 -left-1 text-2xl animate-spin" style={{ animationDelay: '1s', animationDuration: '3s' }}>❄️</div>
             </div>
-            <h3 className="text-xl font-bold text-brandBlue mb-3">Elevate in 2026</h3>
+            <h3 className="text-xl font-bold text-brandBlue mb-3">Level Up in 2026</h3>
             <p className="text-gray-600">
                 Use your credits starting Jan 1st, 2026 for any premium service.
             </p>
