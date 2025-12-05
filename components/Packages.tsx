@@ -120,6 +120,19 @@ const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
           ))}
         </div>
         
+        {/* Need More Credits Section */}
+        <div className="mt-12 text-center">
+          <div className="inline-flex items-center gap-3 bg-brandBlue/5 border-2 border-brandBlue/20 rounded-full px-6 py-3 hover:border-brandRed/40 hover:bg-brandRed/5 transition-all">
+            <span className="text-brandBlue font-semibold">Need more credits?</span>
+            <a 
+              href="mailto:support@curb360.com?subject=Custom Credit Package Inquiry&body=Hi, I'm interested in discussing a custom credit package for 2026."
+              className="text-brandRed hover:text-red-600 font-bold text-lg transition-colors"
+            >
+              Let's talk →
+            </a>
+          </div>
+        </div>
+
         {/* Credits Availability Note */}
         <div className="mt-16 relative">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 rounded-2xl transform -skew-y-1"></div>
