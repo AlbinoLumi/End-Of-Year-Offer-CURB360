@@ -36,9 +36,16 @@ const Countdown: React.FC = () => {
 
   return (
     <div className="w-full bg-white backdrop-blur-sm border-y border-brandBlue/10 py-6 relative overflow-hidden">
+      {/* Festive gradient border effect */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-brandRed/30 to-transparent"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-brandRed/30 to-transparent"></div>
+      
       {/* Background decoration */}
       <div className="absolute right-10 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none hidden md:block">
         <Snowflake size={80} className="text-brandBlue" />
+      </div>
+      <div className="absolute left-10 top-1/2 -translate-y-1/2 opacity-5 pointer-events-none hidden md:block">
+        <Snowflake size={60} className="text-brandRed" />
       </div>
 
       <div className="max-w-4xl mx-auto px-4 flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left relative z-10">

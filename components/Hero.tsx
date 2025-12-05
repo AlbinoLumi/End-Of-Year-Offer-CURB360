@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, Snowflake } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface HeroProps {
@@ -8,6 +8,8 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
+  const [snowflakes, setSnowflakes] = useState<Array<{ id: number; left: number; delay: number; duration: number }>>([]);
+
   useEffect(() => {
     // Launch confetti on mount
     const duration = 3000;
@@ -34,6 +36,15 @@ const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
       }
     };
     frame();
+
+    // Create snowflakes
+    const flakes = Array.from({ length: 30 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      delay: Math.random() * 5,
+      duration: 10 + Math.random() * 10,
+    }));
+    setSnowflakes(flakes);
   }, []);
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -51,13 +62,37 @@ const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
         <img 
             src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop" 
             alt="Starry Night Background" 
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-cover opacity-50"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-brandBlue/90 via-brandBlue/70 to-brandBlue"></div>
+        <div className="absolute inset-0 festive-gradient"></div>
+        {/* Subtle festive gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brandBlue/95 via-brandBlue/85 via-transparent to-brandRed/10"></div>
+      </div>
+
+      {/* Animated Snowflakes */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        {snowflakes.map((flake) => (
+          <Snowflake
+            key={flake.id}
+            size={12 + Math.random() * 8}
+            className="snowflake text-white/60"
+            style={{
+              left: `${flake.left}%`,
+              animationDelay: `${flake.delay}s`,
+              animationDuration: `${flake.duration}s`,
+            }}
+          />
+        ))}
       </div>
 
       {/* Decorative Fireworks/Sparkles */}
-      <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none sparkle-bg opacity-40"></div>
+      <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none sparkle-bg opacity-50"></div>
+      
+      {/* Twinkling stars effect */}
+      <div className="absolute top-20 left-10 w-2 h-2 bg-white rounded-full twinkle" style={{ animationDelay: '0s' }}></div>
+      <div className="absolute top-40 right-20 w-1.5 h-1.5 bg-white rounded-full twinkle" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-60 left-1/4 w-2 h-2 bg-white rounded-full twinkle" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-32 right-1/3 w-1.5 h-1.5 bg-white rounded-full twinkle" style={{ animationDelay: '0.5s' }}></div>
 
       <div className="container mx-auto px-4 z-10 text-center">
         <motion.div

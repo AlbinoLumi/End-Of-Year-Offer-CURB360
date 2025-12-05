@@ -57,6 +57,60 @@
         from { background-position: 0 0, 40px 60px, 130px 270px; }
         to { background-position: 550px 550px, 390px 410px, 380px 520px; }
       }
+
+      /* Festive snowflake animation */
+      @keyframes snowfall {
+        0% {
+          transform: translateY(-10vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.6;
+        }
+        90% {
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(110vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      .snowflake {
+        position: absolute;
+        top: -20px;
+        color: rgba(255, 255, 255, 0.7);
+        animation: snowfall linear infinite;
+        pointer-events: none;
+        filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+      }
+
+      /* Twinkling stars effect */
+      @keyframes twinkle {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.2); }
+      }
+
+      .twinkle {
+        animation: twinkle 3s ease-in-out infinite;
+      }
+
+      /* Festive gradient overlay */
+      .festive-gradient {
+        background: linear-gradient(
+          135deg,
+          rgba(18, 54, 69, 0.95) 0%,
+          rgba(18, 54, 69, 0.85) 50%,
+          rgba(250, 79, 92, 0.1) 100%
+        );
+      }
+
+      /* Subtle festive glow */
+      .festive-glow {
+        box-shadow: 0 0 20px rgba(250, 79, 92, 0.3),
+                    0 0 40px rgba(255, 255, 255, 0.1),
+                    0 0 60px rgba(250, 79, 92, 0.1);
+      }
     </style>
   </head>
   <body>
