@@ -108,12 +108,12 @@ const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
             </div>
 
             <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
-                Unlock <span className="text-brandRed">50% Back</span> in Credits <br />
+                Unlock <span className="text-brandRed">50% Cash Back</span> Credits <br />
                 <span className="glitter-text block mt-2">Your Best Year Starts Here!</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-gray-200 mb-10 max-w-2xl mx-auto font-light">
-                Get ready for 2026 with up to <span className="font-bold text-white">$500 in bonus credits</span> to elevate your listings to the next level.
+                Get ahead for 2026 with up to <span className="font-bold text-white">$500 in bonus credits</span> that you can use toward your media services in 2026.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -138,7 +138,7 @@ const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
             </div>
             
             <p className="mt-6 text-sm text-gray-400">
-                *Offer ends December 31st. Credits valid for 2026.
+                Offer ends December 31st. Credits apply to bookings made in 2026.
             </p>
         </motion.div>
       </div>

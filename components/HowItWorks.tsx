@@ -10,7 +10,7 @@ const HowItWorks: React.FC = () => {
             Kickstart 2026 in 3 Simple Steps
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            2026 is just around the corner. Book your shoots now and get 50% back in credits to use next year.
+            2026 is just around the corner. Purchase your credits now and get 50% back to use next year.
           </p>
         </div>
 
