@@ -1,0 +1,88 @@
+<!-- FINAL EMBED CODE - NO DOUBLE SCROLLING + ROUNDED CORNERS -->
+<!-- Copy and paste this entire code into WordPress Custom HTML block -->
+
+<div style="width: 100%; height: 100vh; min-height: 800px; overflow: hidden; position: relative;">
+  <iframe 
+    src="https://end-of-year-offer-curb-360.vercel.app/" 
+    width="100%" 
+    height="100%" 
+    frameborder="0" 
+    scrolling="no"
+    style="border: none; min-height: 800px; display: block; overflow: hidden;"
+    title="CURB360 End of Year Offer"
+    id="curb360-embed-no-scroll">
+  </iframe>
+</div>
+
+<script>
+(function() {
+  var iframe = document.getElementById('curb360-embed-no-scroll');
+  if (!iframe) return;
+  
+  // Function to adjust iframe height to match content
+  function adjustIframeHeight() {
+    try {
+      var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      var body = iframeDoc.body;
+      var html = iframeDoc.documentElement;
+      
+      var height = Math.max(
+        body.scrollHeight,
+        body.offsetHeight,
+        html.clientHeight,
+        html.scrollHeight,
+        html.offsetHeight
+      );
+      
+      // Set iframe height to match content
+      iframe.style.height = height + 'px';
+      
+      // Also set container height
+      iframe.parentElement.style.height = height + 'px';
+    } catch (e) {
+      // Cross-origin restriction - use viewport height
+      var vh = window.innerHeight;
+      iframe.style.height = vh + 'px';
+      iframe.parentElement.style.height = vh + 'px';
+    }
+  }
+  
+  // Adjust height when iframe loads
+  iframe.onload = function() {
+    setTimeout(adjustIframeHeight, 500);
+    setTimeout(adjustIframeHeight, 1500);
+    setTimeout(adjustIframeHeight, 3000);
+  };
+  
+  // Listen for resize events
+  window.addEventListener('resize', function() {
+    setTimeout(adjustIframeHeight, 100);
+  });
+  
+  // Listen for messages from iframe (if postMessage is implemented)
+  window.addEventListener('message', function(event) {
+    if (event.data && event.data.type === 'resize' && event.data.height) {
+      iframe.style.height = event.data.height + 'px';
+      iframe.parentElement.style.height = event.data.height + 'px';
+    }
+  });
+})();
+</script>
+
+<style>
+  /* Hide scrollbars but allow scrolling */
+  #curb360-embed-no-scroll {
+    overflow: hidden !important;
+  }
+  
+  /* Ensure container doesn't create extra scroll */
+  #curb360-embed-no-scroll {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  #curb360-embed-no-scroll::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+  }
+</style>
+

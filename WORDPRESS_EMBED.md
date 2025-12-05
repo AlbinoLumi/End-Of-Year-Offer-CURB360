@@ -1,6 +1,6 @@
 # WordPress Embed Instructions
 
-## Method 1: Using an iframe (Recommended)
+## Method 1: Seamless Full-Width Embed (RECOMMENDED - No Double Scrollbars)
 
 ### For WordPress Block Editor (Gutenberg):
 
@@ -8,16 +8,53 @@
 2. Paste the following code:
 
 ```html
-<div style="width: 100%; height: 100vh; min-height: 800px;">
+<div style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; overflow: hidden;">
   <iframe 
     src="https://end-of-year-offer-curb-360.vercel.app/" 
     width="100%" 
-    height="100%" 
+    height="100vh" 
     frameborder="0" 
-    scrolling="auto"
-    style="border: none; min-height: 800px;">
+    scrolling="no"
+    style="border: none; display: block; min-height: 100vh; overflow: hidden;"
+    title="CURB360 End of Year Offer"
+    id="curb360-embed">
   </iframe>
 </div>
+<script>
+(function() {
+  var iframe = document.getElementById('curb360-embed');
+  if (iframe) {
+    // Remove scrollbars from iframe
+    iframe.style.overflow = 'hidden';
+    
+    // Make iframe height match content
+    function resizeIframe() {
+      try {
+        var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        var height = Math.max(
+          iframeDoc.body.scrollHeight,
+          iframeDoc.body.offsetHeight,
+          iframeDoc.documentElement.clientHeight,
+          iframeDoc.documentElement.scrollHeight,
+          iframeDoc.documentElement.offsetHeight
+        );
+        iframe.style.height = height + 'px';
+      } catch (e) {
+        // Cross-origin restriction - use viewport height
+        iframe.style.height = '100vh';
+      }
+    }
+    
+    iframe.onload = function() {
+      resizeIframe();
+      setInterval(resizeIframe, 500);
+    };
+    
+    // Listen for resize events
+    window.addEventListener('resize', resizeIframe);
+  }
+})();
+</script>
 ```
 
 ### For Classic Editor:
@@ -60,17 +97,20 @@ add_shortcode('curb360_offer', 'embed_curb360_offer');
 
 Then use `[curb360_offer]` anywhere in your content.
 
-## Method 3: Full-width Embed (Recommended for landing pages)
+## Method 3: Simple Full-Width (No Script - Fixed Height)
+
+If the script method doesn't work, use this simpler version:
 
 ```html
-<div style="width: 100vw; margin-left: calc(-50vw + 50%); height: 100vh; min-height: 800px;">
+<div style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; overflow: hidden; height: 100vh;">
   <iframe 
     src="https://end-of-year-offer-curb-360.vercel.app/" 
     width="100%" 
     height="100%" 
     frameborder="0" 
-    scrolling="auto"
-    style="border: none; min-height: 800px;">
+    scrolling="no"
+    style="border: none; display: block; height: 100vh; overflow-y: auto; overflow-x: hidden;"
+    title="CURB360 End of Year Offer">
   </iframe>
 </div>
 ```

@@ -1,0 +1,70 @@
+<!-- FULL PAGE EMBED CODE FOR WORDPRESS -->
+<!-- Copy everything below and paste into WordPress Custom HTML block -->
+
+<div style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; overflow: visible; background: transparent;">
+  <iframe 
+    src="https://end-of-year-offer-curb-360.vercel.app/" 
+    width="100%" 
+    height="5000px" 
+    frameborder="0" 
+    scrolling="yes"
+    style="border: none; display: block; width: 100%; min-height: 5000px; overflow: visible;"
+    title="CURB360 End of Year Offer"
+    id="curb360-full-embed"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<script>
+(function() {
+  var iframe = document.getElementById('curb360-full-embed');
+  if (!iframe) return;
+  
+  // Set a large initial height to ensure full page loads
+  iframe.style.height = '5000px';
+  
+  function adjustHeight() {
+    try {
+      // Try to access iframe content (may fail due to cross-origin)
+      var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      var body = iframeDoc.body;
+      var html = iframeDoc.documentElement;
+      
+      var height = Math.max(
+        body.scrollHeight,
+        body.offsetHeight,
+        html.clientHeight,
+        html.scrollHeight,
+        html.offsetHeight
+      );
+      
+      // Add some padding
+      iframe.style.height = (height + 100) + 'px';
+    } catch (e) {
+      // Cross-origin restriction - use message passing or fixed large height
+      // Keep the large height we set initially
+      console.log('Cross-origin iframe - using fixed height');
+    }
+  }
+  
+  // Adjust height when iframe loads
+  iframe.onload = function() {
+    setTimeout(adjustHeight, 500);
+    setTimeout(adjustHeight, 1500);
+    setTimeout(adjustHeight, 3000);
+  };
+  
+  // Listen for messages from iframe (if you add postMessage support)
+  window.addEventListener('message', function(event) {
+    if (event.data && event.data.type === 'iframe-height') {
+      iframe.style.height = event.data.height + 'px';
+    }
+  });
+  
+  // Adjust on window resize
+  window.addEventListener('resize', function() {
+    setTimeout(adjustHeight, 100);
+  });
+})();
+</script>
+

@@ -56,7 +56,7 @@ const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-brandBlue text-white pt-20">
+    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-brandBlue text-white pt-20 pb-12">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 

@@ -1,0 +1,61 @@
+<!-- COPY AND PASTE THIS ENTIRE CODE INTO WORDPRESS CUSTOM HTML BLOCK -->
+
+<div style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; overflow: visible; background: transparent;">
+  <iframe 
+    src="https://end-of-year-offer-curb-360.vercel.app/" 
+    width="100%" 
+    height="6000px" 
+    frameborder="0" 
+    scrolling="yes"
+    style="border: none; display: block; width: 100%; min-height: 6000px; overflow: visible;"
+    title="CURB360 End of Year Offer"
+    id="curb360-full-embed"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<script>
+(function() {
+  var iframe = document.getElementById('curb360-full-embed');
+  if (!iframe) return;
+  
+  // Set large initial height to ensure full page loads
+  iframe.style.height = '6000px';
+  
+  function adjustHeight() {
+    try {
+      // Try to access iframe content
+      var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      var body = iframeDoc.body;
+      var html = iframeDoc.documentElement;
+      
+      var height = Math.max(
+        body.scrollHeight,
+        body.offsetHeight,
+        html.clientHeight,
+        html.scrollHeight,
+        html.offsetHeight
+      );
+      
+      // Add padding for better display
+      iframe.style.height = (height + 200) + 'px';
+    } catch (e) {
+      // Cross-origin restriction - keep large height
+      // The large initial height will show full page
+    }
+  }
+  
+  // Adjust height when iframe loads
+  iframe.onload = function() {
+    setTimeout(adjustHeight, 500);
+    setTimeout(adjustHeight, 1500);
+    setTimeout(adjustHeight, 3000);
+  };
+  
+  // Adjust on window resize
+  window.addEventListener('resize', function() {
+    setTimeout(adjustHeight, 100);
+  });
+})();
+</script>
+

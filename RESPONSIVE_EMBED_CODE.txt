@@ -1,0 +1,102 @@
+<!-- RESPONSIVE EMBED CODE - WORKS ON ALL DEVICES -->
+<!-- Copy and paste this entire code into WordPress Custom HTML block -->
+
+<div style="width: 100%; max-width: 100%; overflow: hidden; position: relative;">
+  <iframe 
+    src="https://end-of-year-offer-curb-360.vercel.app/" 
+    width="100%" 
+    height="4000px" 
+    frameborder="0" 
+    scrolling="yes"
+    style="border: none; display: block; width: 100%; min-height: 4000px; max-width: 100%;"
+    title="CURB360 End of Year Offer"
+    id="curb360-responsive-embed"
+    allowfullscreen
+    loading="lazy">
+  </iframe>
+</div>
+
+<script>
+(function() {
+  var iframe = document.getElementById('curb360-responsive-embed');
+  if (!iframe) return;
+  
+  // Set initial height
+  var initialHeight = window.innerWidth < 768 ? 3500 : 4000;
+  iframe.style.height = initialHeight + 'px';
+  
+  function adjustHeight() {
+    try {
+      var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      var body = iframeDoc.body;
+      var html = iframeDoc.documentElement;
+      
+      var height = Math.max(
+        body.scrollHeight,
+        body.offsetHeight,
+        html.clientHeight,
+        html.scrollHeight,
+        html.offsetHeight
+      );
+      
+      // Add small padding
+      iframe.style.height = (height + 100) + 'px';
+    } catch (e) {
+      // Cross-origin - use responsive height based on screen size
+      var screenHeight = window.innerHeight;
+      var screenWidth = window.innerWidth;
+      
+      if (screenWidth < 768) {
+        // Mobile
+        iframe.style.height = '3500px';
+      } else if (screenWidth < 1024) {
+        // Tablet
+        iframe.style.height = '4000px';
+      } else {
+        // Desktop
+        iframe.style.height = '4500px';
+      }
+    }
+  }
+  
+  // Adjust on load
+  iframe.onload = function() {
+    setTimeout(adjustHeight, 500);
+    setTimeout(adjustHeight, 1500);
+  };
+  
+  // Adjust on resize
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(adjustHeight, 250);
+  });
+})();
+</script>
+
+<style>
+  /* Ensure iframe container is responsive */
+  #curb360-responsive-embed {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  
+  @media (max-width: 768px) {
+    #curb360-responsive-embed {
+      min-height: 3000px !important;
+    }
+  }
+  
+  @media (min-width: 769px) and (max-width: 1024px) {
+    #curb360-responsive-embed {
+      min-height: 3500px !important;
+    }
+  }
+  
+  @media (min-width: 1025px) {
+    #curb360-responsive-embed {
+      min-height: 4000px !important;
+    }
+  }
+</style>
+
