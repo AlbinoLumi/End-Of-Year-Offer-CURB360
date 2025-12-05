@@ -37,11 +37,13 @@ const Footer: React.FC<FooterProps> = ({ onOpenModal }) => {
           {/* Brand */}
           <div className="space-y-4">
              <div className="flex items-center gap-3 mb-4">
-                <img 
-                    src="https://curb360.com/wp-content/uploads/2023/10/CURB360_HzLogo_Red_Final2-1.png" 
-                    alt="CURB360 Real Estate Media Experts" 
-                    className="h-14 w-auto object-contain brightness-0 invert"
-                />
+                <a href="https://curb360.com" target="_blank" rel="noopener noreferrer">
+                  <img 
+                      src="https://curb360.com/wp-content/uploads/2023/10/CURB360_HzLogo_Red_Final2-1.png" 
+                      alt="CURB360 Real Estate Media Experts" 
+                      className="h-14 w-auto object-contain brightness-0 invert"
+                  />
+                </a>
             </div>
             <p className="text-gray-200 leading-relaxed">
               Helping real estate professionals sell faster and for more with premium visual marketing solutions.

@@ -42,11 +42,13 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenModal }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-             <img 
-                src="https://curb360.com/wp-content/uploads/2023/10/CURB360_HzLogo_Red_Final2-1.png" 
-                alt="CURB360 Real Estate Media Experts" 
-                className={`h-10 md:h-12 w-auto object-contain transition-all duration-300 ${scrolled ? '' : 'brightness-0 invert'}`}
-             />
+             <a href="https://curb360.com" target="_blank" rel="noopener noreferrer">
+               <img 
+                  src="https://curb360.com/wp-content/uploads/2023/10/CURB360_HzLogo_Red_Final2-1.png" 
+                  alt="CURB360 Real Estate Media Experts" 
+                  className={`h-10 md:h-12 w-auto object-contain transition-all duration-300 ${scrolled ? '' : 'brightness-0 invert'}`}
+               />
+             </a>
           </div>
 
           {/* Desktop Menu */}
