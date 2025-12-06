@@ -149,7 +149,7 @@ const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
         <div className="mt-12 text-center">
           <div className="inline-flex flex-col items-center gap-2">
             <div className="inline-flex items-center gap-3 bg-brandBlue/5 border-2 border-brandBlue/20 rounded-full px-6 py-3 hover:border-brandRed/40 hover:bg-brandRed/5 transition-all">
-              <span className="text-brandBlue font-semibold">Need more credits?</span>
+              <span className="text-brandBlue font-semibold">WANT MORE CREDITS?</span>
               <button
                 onClick={() => setShowEmailOptions(!showEmailOptions)}
                 className="text-brandRed hover:text-red-600 font-bold text-lg transition-colors inline-flex items-center gap-1"
@@ -191,9 +191,9 @@ const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
                 <div className="inline-block p-3 bg-blue-100 text-brandBlue rounded-full mb-4">
                     <Snowflake className="animate-pulse" size={24} />
                 </div>
-                <h4 className="text-xl font-bold text-brandBlue mb-2">Important Note</h4>
+                <h4 className="text-xl font-bold text-brandRed mb-2">OFFER TERMS</h4>
                 <p className="text-gray-600 text-lg leading-relaxed max-w-4xl mx-auto">
-                    Your cash credits work across all CURB360 media services in 2026. You have full flexibility on how and when to use them - whether for professional photos, virtual tours, floor plans, aerial shots, or any other services that best fit your needs throughout the year.
+                    Your cash credits work across all CURB360 media services in 2026. You have full flexibility on how and when to use them - whether for professional photos, virtual tours, floor plans, aerial photos and/or any other services that best fit your needs throughout the year.
                 </p>
             </div>
         </div>
