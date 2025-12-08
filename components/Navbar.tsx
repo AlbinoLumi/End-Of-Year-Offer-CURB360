@@ -44,7 +44,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenModal }) => {
           <div className="flex items-center gap-3">
              <a href="https://curb360.com" target="_blank" rel="noopener noreferrer">
                <img 
-                  src="https://curb360.com/wp-content/uploads/2023/10/CURB360_HzLogo_Red_Final2-1.png" 
+                  src="/CURB360_HzLogo_Red_Final2-1.png" 
                   alt="CURB360 Real Estate Media Experts" 
                   className={`h-10 md:h-12 w-auto object-contain transition-all duration-300 ${scrolled ? '' : 'brightness-0 invert'}`}
                />

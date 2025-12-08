@@ -39,7 +39,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenModal }) => {
              <div className="flex items-center gap-3 mb-4">
                 <a href="https://curb360.com" target="_blank" rel="noopener noreferrer">
                   <img 
-                      src="https://curb360.com/wp-content/uploads/2023/10/CURB360_HzLogo_Red_Final2-1.png" 
+                      src="/CURB360_HzLogo_Red_Final2-1.png" 
                       alt="CURB360 Real Estate Media Experts" 
                       className="h-14 w-auto object-contain brightness-0 invert"
                   />
