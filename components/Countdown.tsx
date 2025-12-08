@@ -10,13 +10,85 @@ const Countdown: React.FC = () => {
   });
 
   useEffect(() => {
-    // Set deadline to December 31st of current year
+    // Set deadline to December 31st of current year at 11:59:59 PM Pacific Time (San Diego, CA)
     const currentYear = new Date().getFullYear();
-    const deadline = new Date(`December 31, ${currentYear} 23:59:59`).getTime();
+    
+    // Helper function to get current time in Pacific Time as milliseconds since epoch
+    const getCurrentPacificTimeMs = () => {
+      const now = new Date();
+      
+      // Get current time components in Pacific Time
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Los_Angeles',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      
+      const parts = formatter.formatToParts(now);
+      const getPart = (type: string) => parseInt(parts.find(p => p.type === type)?.value || '0');
+      
+      const year = getPart('year');
+      const month = getPart('month');
+      const day = getPart('day');
+      const hour = getPart('hour');
+      const minute = getPart('minute');
+      const second = getPart('second');
+      
+      // Create a date object from these components (interpreted as local time)
+      const pacificDate = new Date(year, month - 1, day, hour, minute, second);
+      
+      // Calculate the offset between local timezone and Pacific Time
+      // We do this by creating two Date objects from the same moment in different timezones
+      const nowUTC = now.getTime();
+      
+      // Get what "now" is in Pacific Time as a string
+      const nowPacificStr = formatter.format(now);
+      // Get what "now" is in local time as a string
+      const nowLocalStr = now.toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      
+      // Parse both strings to Date objects (they'll be interpreted in local timezone)
+      const parseDateStr = (str: string) => {
+        const [datePart, timePart] = str.split(', ');
+        const [m, d, y] = datePart.split('/');
+        const [h, min, s] = timePart.split(':');
+        return new Date(parseInt(y), parseInt(m) - 1, parseInt(d), parseInt(h), parseInt(min), parseInt(s));
+      };
+      
+      const pacificParsed = parseDateStr(nowPacificStr);
+      const localParsed = parseDateStr(nowLocalStr);
+      
+      // The offset is the difference between how local timezone interprets
+      // the same moment when expressed in Pacific vs Local time
+      const offset = localParsed.getTime() - pacificParsed.getTime();
+      
+      // Adjust the pacific date by the offset to get the correct UTC time
+      return pacificDate.getTime() - offset;
+    };
+
+    // Create deadline: December 31, 23:59:59 Pacific Time
+    // December 31 is always PST (UTC-8), not PDT
+    const deadlinePST = new Date(`${currentYear}-12-31T23:59:59-08:00`);
+    const deadlineUTC = deadlinePST.getTime();
 
     const timer = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = deadline - now;
+      // Get current time in Pacific Time (as UTC milliseconds)
+      const nowPacificUTC = getCurrentPacificTimeMs();
+      
+      // Calculate difference
+      const distance = deadlineUTC - nowPacificUTC;
 
       if (distance < 0) {
         clearInterval(timer);
