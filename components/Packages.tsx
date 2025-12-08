@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Package } from '../types';
 import { Camera, Layers, Zap, Check, Snowflake, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -39,6 +39,16 @@ const packages: Package[] = [
 
 const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
   const [showForm, setShowForm] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (showForm && formRef.current) {
+      // Small delay to ensure the form is rendered
+      setTimeout(() => {
+        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }, [showForm]);
 
   return (
     <section id="packages" className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
@@ -138,6 +148,7 @@ const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
             <AnimatePresence>
               {showForm && (
                 <motion.div
+                  ref={formRef}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}

@@ -47,6 +47,12 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenModal }) => {
                   src="/CURB360_HzLogo_Red_Final2-1.png" 
                   alt="CURB360 Real Estate Media Experts" 
                   className={`h-10 md:h-12 w-auto object-contain transition-all duration-300 ${scrolled ? '' : 'brightness-0 invert'}`}
+                  style={{
+                    imageRendering: 'crisp-edges',
+                    backfaceVisibility: 'hidden',
+                    transform: 'translateZ(0)',
+                    willChange: 'filter'
+                  }}
                />
              </a>
           </div>
