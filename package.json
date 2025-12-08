@@ -9,11 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
-    "lucide-react": "^0.555.0",
+    "@emailjs/browser": "^4.4.1",
+    "canvas-confetti": "^1.9.4",
     "framer-motion": "^12.23.25",
-    "canvas-confetti": "^1.9.4"
+    "lucide-react": "^0.555.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

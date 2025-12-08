@@ -38,30 +38,7 @@ const packages: Package[] = [
 ];
 
 const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
-  const [showEmailOptions, setShowEmailOptions] = useState(false);
-
-  const emailOptions = [
-    {
-      name: 'Gmail',
-      url: `https://mail.google.com/mail/?view=cm&fs=1&to=support@curb360.com&su=${encodeURIComponent('Custom Credit Package Inquiry')}&body=${encodeURIComponent('Hi, I\'m interested in discussing a custom credit package for 2026.')}`,
-      icon: '📧'
-    },
-    {
-      name: 'Outlook',
-      url: `https://outlook.live.com/mail/0/deeplink/compose?to=support@curb360.com&subject=${encodeURIComponent('Custom Credit Package Inquiry')}&body=${encodeURIComponent('Hi, I\'m interested in discussing a custom credit package for 2026.')}`,
-      icon: '📨'
-    },
-    {
-      name: 'Yahoo',
-      url: `https://compose.mail.yahoo.com/?to=support@curb360.com&subject=${encodeURIComponent('Custom Credit Package Inquiry')}&body=${encodeURIComponent('Hi, I\'m interested in discussing a custom credit package for 2026.')}`,
-      icon: '✉️'
-    },
-    {
-      name: 'Default Email',
-      url: `mailto:support@curb360.com?subject=${encodeURIComponent('Custom Credit Package Inquiry')}&body=${encodeURIComponent('Hi, I\'m interested in discussing a custom credit package for 2026.')}`,
-      icon: '📬'
-    }
-  ];
+  const [showForm, setShowForm] = useState(false);
 
   return (
     <section id="packages" className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
@@ -147,37 +124,39 @@ const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
         
         {/* Need More Credits Section */}
         <div className="mt-12 text-center">
-          <div className="inline-flex flex-col items-center gap-2">
+          <div className="inline-flex flex-col items-center gap-4">
             <div className="inline-flex items-center gap-3 bg-brandBlue/5 border-2 border-brandBlue/20 rounded-full px-6 py-3 hover:border-brandRed/40 hover:bg-brandRed/5 transition-all">
               <span className="text-brandBlue font-semibold">WANT MORE CREDITS?</span>
               <button
-                onClick={() => setShowEmailOptions(!showEmailOptions)}
+                onClick={() => setShowForm(!showForm)}
                 className="text-brandRed hover:text-red-600 font-bold text-lg transition-colors inline-flex items-center gap-1"
               >
-                Let's talk <ChevronDown size={18} className={`transition-transform ${showEmailOptions ? 'rotate-180' : ''}`} />
+                Let's talk <ChevronDown size={18} className={`transition-transform ${showForm ? 'rotate-180' : ''}`} />
               </button>
             </div>
             
             <AnimatePresence>
-              {showEmailOptions && (
+              {showForm && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="mt-2 bg-white border-2 border-brandBlue/20 rounded-xl shadow-xl p-2 min-w-[200px]"
+                  className="mt-4 bg-white border-2 border-brandBlue/20 rounded-xl shadow-xl overflow-visible min-w-[500px] max-w-2xl w-full"
                 >
-                  {emailOptions.map((option, index) => (
-                    <a
-                      key={index}
-                      href={option.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandBlue/5 transition-colors text-brandBlue font-medium text-sm"
-                    >
-                      <span className="text-xl">{option.icon}</span>
-                      <span>{option.name}</span>
-                    </a>
-                  ))}
+                  <iframe 
+                    aria-label="Want more credits? Form" 
+                    frameBorder="0" 
+                    style={{ 
+                      height: '800px', 
+                      width: '100%', 
+                      border: 'none',
+                      display: 'block',
+                      minHeight: '800px'
+                    }} 
+                    src="https://forms.zohopublic.com/curb360/form/WantmorecreditsForm/formperma/GB7AL5E3Kb4gPO2KCmfxFUFOgF8RVQkFJ6Muqo0p0t0"
+                    title="Want more credits? Form"
+                    scrolling="auto"
+                  ></iframe>
                 </motion.div>
               )}
             </AnimatePresence>
