@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
 import { ArrowRight, Sparkles, Snowflake } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useOffer } from '../contexts/OfferContext';
 
 interface HeroProps {
   onOpenModal: (packageId?: string) => void;
 }
 
 const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
+  const { isExpired } = useOffer();
   const [snowflakes, setSnowflakes] = useState<Array<{ id: number; left: number; delay: number; duration: number }>>([]);
 
   useEffect(() => {
@@ -119,14 +121,26 @@ const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a 
                     href="#packages"
-                    onClick={(e) => handleScroll(e, '#packages')}
-                    className="group relative px-8 py-4 bg-brandRed text-white rounded-full text-lg font-bold shadow-[0_0_20px_rgba(250,79,92,0.5)] hover:bg-red-600 hover:shadow-[0_0_30px_rgba(250,79,92,0.8)] transition-all transform hover:-translate-y-1 overflow-hidden inline-flex items-center justify-center"
+                    onClick={(e) => {
+                      if (isExpired) {
+                        e.preventDefault();
+                        return;
+                      }
+                      handleScroll(e, '#packages');
+                    }}
+                    className={`group relative px-8 py-4 rounded-full text-lg font-bold transition-all transform overflow-hidden inline-flex items-center justify-center ${
+                      isExpired 
+                        ? 'bg-gray-500 text-gray-200 cursor-not-allowed opacity-60' 
+                        : 'bg-brandRed text-white shadow-[0_0_20px_rgba(250,79,92,0.5)] hover:bg-red-600 hover:shadow-[0_0_30px_rgba(250,79,92,0.8)] hover:-translate-y-1'
+                    }`}
                 >
                     <span className="relative z-10 flex items-center gap-2">
-                        Unlock My 2026 Credits <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                        {isExpired ? 'Offer Ended' : 'Unlock My 2026 Credits'} {!isExpired && <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />}
                     </span>
-                    {/* Hover shine effect */}
-                    <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 group-hover:animate-[shine_1s_ease-in-out]"></div>
+                    {!isExpired && (
+                      /* Hover shine effect */
+                      <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 group-hover:animate-[shine_1s_ease-in-out]"></div>
+                    )}
                 </a>
                 <a 
                     href="#how-it-works"

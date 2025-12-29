@@ -8,12 +8,18 @@ import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import BookingModal from './components/BookingModal';
+import { OfferProvider, useOffer } from './contexts/OfferContext';
 
-function App() {
+function AppContent() {
+  const { isExpired } = useOffer();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPackageId, setSelectedPackageId] = useState<string | null>(null);
 
   const openModal = (packageId?: string) => {
+    // Prevent opening modal if offer has expired
+    if (isExpired) {
+      return;
+    }
     if (packageId) {
       setSelectedPackageId(packageId);
     } else {
@@ -54,6 +60,14 @@ function App() {
         packageId={selectedPackageId}
       />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <OfferProvider>
+      <AppContent />
+    </OfferProvider>
   );
 }
 

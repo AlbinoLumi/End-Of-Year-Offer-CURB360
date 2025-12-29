@@ -1,11 +1,13 @@
 import React from 'react';
 import { Instagram, Facebook, Twitter, Linkedin } from 'lucide-react';
+import { useOffer } from '../contexts/OfferContext';
 
 interface FooterProps {
   onOpenModal: (packageId?: string) => void;
 }
 
 const Footer: React.FC<FooterProps> = ({ onOpenModal }) => {
+  const { isExpired } = useOffer();
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const element = document.querySelector(href);
@@ -89,14 +91,30 @@ const Footer: React.FC<FooterProps> = ({ onOpenModal }) => {
 
           {/* Urgent CTA */}
           <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20">
-            <h4 className="text-lg font-bold mb-2 text-white">Offer Ends Dec 31st!</h4>
-            <p className="text-sm text-gray-200 mb-4">Book now and make 2026 your year of growth.</p>
+            <h4 className="text-lg font-bold mb-2 text-white">
+              {isExpired ? 'Offer Has Ended' : 'Offer Ends Dec 31st!'}
+            </h4>
+            <p className="text-sm text-gray-200 mb-4">
+              {isExpired 
+                ? 'Thank you for your interest! Please check back for future promotions.' 
+                : 'Book now and make 2026 your year of growth.'}
+            </p>
             <a 
                 href="#packages"
-                onClick={(e) => handleScroll(e, '#packages')}
-                className="block w-full text-center bg-brandRed hover:bg-red-600 text-white font-bold py-3 rounded-lg transition-colors"
+                onClick={(e) => {
+                  if (isExpired) {
+                    e.preventDefault();
+                    return;
+                  }
+                  handleScroll(e, '#packages');
+                }}
+                className={`block w-full text-center font-bold py-3 rounded-lg transition-colors ${
+                  isExpired 
+                    ? 'bg-gray-500 text-gray-200 cursor-not-allowed opacity-60' 
+                    : 'bg-brandRed hover:bg-red-600 text-white'
+                }`}
             >
-                Get My Credits
+                {isExpired ? 'Offer Ended' : 'Get My Credits'}
             </a>
           </div>
         </div>

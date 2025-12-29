@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Timer, Snowflake } from 'lucide-react';
+import { Timer, Snowflake, XCircle } from 'lucide-react';
+import { useOffer } from '../contexts/OfferContext';
 
 const Countdown: React.FC = () => {
+  const { isExpired, setIsExpired } = useOffer();
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -14,11 +16,12 @@ const Countdown: React.FC = () => {
     const currentYear = new Date().getFullYear();
     
     // Helper function to get current time in Pacific Time as milliseconds since epoch
+    // Returns the UTC milliseconds that represent "now" in Pacific timezone
     const getCurrentPacificTimeMs = () => {
       const now = new Date();
       
-      // Get current time components in Pacific Time
-      const formatter = new Intl.DateTimeFormat('en-US', {
+      // Format current UTC time in Pacific timezone to get what time it is there
+      const pacificFormatter = new Intl.DateTimeFormat('en-US', {
         timeZone: 'America/Los_Angeles',
         year: 'numeric',
         month: '2-digit',
@@ -29,27 +32,9 @@ const Countdown: React.FC = () => {
         hour12: false
       });
       
-      const parts = formatter.formatToParts(now);
-      const getPart = (type: string) => parseInt(parts.find(p => p.type === type)?.value || '0');
-      
-      const year = getPart('year');
-      const month = getPart('month');
-      const day = getPart('day');
-      const hour = getPart('hour');
-      const minute = getPart('minute');
-      const second = getPart('second');
-      
-      // Create a date object from these components (interpreted as local time)
-      const pacificDate = new Date(year, month - 1, day, hour, minute, second);
-      
-      // Calculate the offset between local timezone and Pacific Time
-      // We do this by creating two Date objects from the same moment in different timezones
-      const nowUTC = now.getTime();
-      
-      // Get what "now" is in Pacific Time as a string
-      const nowPacificStr = formatter.format(now);
-      // Get what "now" is in local time as a string
-      const nowLocalStr = now.toLocaleString('en-US', {
+      // Format the same UTC moment in UTC timezone for comparison
+      const utcFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'UTC',
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
@@ -59,23 +44,43 @@ const Countdown: React.FC = () => {
         hour12: false
       });
       
-      // Parse both strings to Date objects (they'll be interpreted in local timezone)
-      const parseDateStr = (str: string) => {
-        const [datePart, timePart] = str.split(', ');
-        const [m, d, y] = datePart.split('/');
-        const [h, min, s] = timePart.split(':');
-        return new Date(parseInt(y), parseInt(m) - 1, parseInt(d), parseInt(h), parseInt(min), parseInt(s));
+      // Get time components in both timezones for the same UTC moment
+      const pacificParts = pacificFormatter.formatToParts(now);
+      const utcParts = utcFormatter.formatToParts(now);
+      
+      const getPart = (parts: Intl.DateTimeFormatPart[], type: string) => 
+        parts.find(p => p.type === type)?.value || '0';
+      
+      // Build ISO strings (YYYY-MM-DDTHH:mm:ss)
+      const buildISO = (parts: Intl.DateTimeFormatPart[]) => {
+        const year = getPart(parts, 'year');
+        const month = getPart(parts, 'month');
+        const day = getPart(parts, 'day');
+        const hour = getPart(parts, 'hour').padStart(2, '0');
+        const minute = getPart(parts, 'minute').padStart(2, '0');
+        const second = getPart(parts, 'second').padStart(2, '0');
+        return `${year}-${month}-${day}T${hour}:${minute}:${second}`;
       };
       
-      const pacificParsed = parseDateStr(nowPacificStr);
-      const localParsed = parseDateStr(nowLocalStr);
+      const pacificISO = buildISO(pacificParts);
+      const utcISO = buildISO(utcParts);
       
-      // The offset is the difference between how local timezone interprets
-      // the same moment when expressed in Pacific vs Local time
-      const offset = localParsed.getTime() - pacificParsed.getTime();
+      // Parse both as UTC to calculate the timezone offset
+      // Example: If currentUTC = 12:00 UTC, then:
+      // - pacificISO = "04:00" (what 12:00 UTC looks like in Pacific)
+      // - utcISO = "12:00" (what 12:00 UTC looks like in UTC)
+      // - pacificAsUTC = 04:00 UTC (wrong interpretation of Pacific time)
+      // - utcAsUTC = 12:00 UTC (correct)
+      // - offsetMs = 04:00 - 12:00 = -8 hours = -28800000 ms
+      const pacificAsUTC = new Date(pacificISO + 'Z').getTime();
+      const utcAsUTC = new Date(utcISO + 'Z').getTime();
+      const offsetMs = pacificAsUTC - utcAsUTC;
       
-      // Adjust the pacific date by the offset to get the correct UTC time
-      return pacificDate.getTime() - offset;
+      // To convert Pacific time components back to the correct UTC time:
+      // We need to subtract the offset from the incorrectly interpreted Pacific time
+      // Pacific UTC = pacificAsUTC - offsetMs
+      // Example: 04:00 UTC - (-28800000) = 04:00 + 28800000 = 12:00 UTC ✓
+      return pacificAsUTC - offsetMs;
     };
 
     // Create deadline: December 31, 23:59:59 Pacific Time
@@ -93,6 +98,7 @@ const Countdown: React.FC = () => {
       if (distance < 0) {
         clearInterval(timer);
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setIsExpired(true);
       } else {
         setTimeLeft({
           days: Math.floor(distance / (1000 * 60 * 60 * 24)),
@@ -100,11 +106,31 @@ const Countdown: React.FC = () => {
           minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
           seconds: Math.floor((distance % (1000 * 60)) / 1000),
         });
+        setIsExpired(false);
       }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [setIsExpired]);
+
+  // Don't render if expired
+  if (isExpired) {
+    return (
+      <div className="w-full bg-gray-100 backdrop-blur-sm border-y border-gray-300 py-8 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4 flex flex-col items-center justify-center gap-4 text-center relative z-10">
+          <div className="flex items-center gap-3">
+            <XCircle className="text-brandRed" size={40} />
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-700">
+              Offer Has Ended
+            </h3>
+          </div>
+          <p className="text-lg text-gray-600 max-w-2xl">
+            Thank you for your interest! This exclusive offer has ended. Please check back for future promotions or contact us directly to learn about our current services.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full bg-white backdrop-blur-sm border-y border-brandBlue/10 py-6 relative overflow-hidden">

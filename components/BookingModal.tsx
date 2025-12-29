@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, XCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useOffer } from '../contexts/OfferContext';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -9,6 +10,8 @@ interface BookingModalProps {
 }
 
 const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, packageId }) => {
+  const { isExpired } = useOffer();
+  
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
@@ -20,6 +23,13 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, packageId 
       document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
+  
+  // Close modal if expired
+  useEffect(() => {
+    if (isExpired && isOpen) {
+      onClose();
+    }
+  }, [isExpired, isOpen, onClose]);
 
   // Determine which form URL to use
   const isJumpstart = packageId === 'p1';
@@ -65,7 +75,9 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, packageId 
             >
               {/* Header */}
               <div className="flex justify-between items-center p-4 border-b border-white/10 bg-brandBlue">
-                <h3 className="text-xl font-bold text-white">Secure Your Credits</h3>
+                <h3 className="text-xl font-bold text-white">
+                  {isExpired ? 'Offer Has Ended' : 'Secure Your Credits'}
+                </h3>
                 <button
                   onClick={onClose}
                   className="text-white/70 hover:text-white hover:bg-white/10 p-2 rounded-full transition-colors"
@@ -74,16 +86,30 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, packageId 
                 </button>
               </div>
 
-              {/* Body (Zoho Form) */}
-              <div className="flex-grow overflow-y-auto bg-brandBlue p-2">
-                 {/* The form background is white, so it will stand out nicely against the brandBlue padding */}
-                 <iframe 
+              {/* Body */}
+              <div className="flex-grow overflow-y-auto bg-brandBlue p-8">
+                {isExpired ? (
+                  <div className="flex flex-col items-center justify-center text-center py-12">
+                    <XCircle className="text-brandRed mb-4" size={64} />
+                    <h4 className="text-2xl font-bold text-white mb-4">Offer Has Ended</h4>
+                    <p className="text-gray-200 text-lg mb-6 max-w-md">
+                      Thank you for your interest! This exclusive offer has ended. Please check back for future promotions or contact us directly to learn about our current services.
+                    </p>
+                    <div className="space-y-2 text-gray-300">
+                      <p><strong>Email:</strong> <a href="mailto:support@curb360.com" className="text-brandRed hover:text-red-400">support@curb360.com</a></p>
+                      <p><strong>Phone:</strong> <a href="tel:8332872360" className="text-brandRed hover:text-red-400">833-287-2360</a></p>
+                    </div>
+                  </div>
+                ) : (
+                  /* The form background is white, so it will stand out nicely against the brandBlue padding */
+                  <iframe 
                     aria-label={ariaLabel} 
                     frameBorder="0" 
                     style={{ height: '500px', width: '99%', border: 'none', borderRadius: '8px' }} 
                     src={formUrl}
                     title="Booking Form"
-                 ></iframe>
+                  ></iframe>
+                )}
               </div>
             </motion.div>
           </div>

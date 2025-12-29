@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useOffer } from '../contexts/OfferContext';
 
 interface NavbarProps {
   onOpenModal: (packageId?: string) => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ onOpenModal }) => {
+  const { isExpired } = useOffer();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -73,10 +75,20 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenModal }) => {
             ))}
             <a 
               href="#packages"
-              onClick={(e) => handleNavClick(e, '#packages')}
-              className="bg-brandRed hover:bg-red-600 text-white px-6 py-2 rounded-full font-bold transition-all shadow-md hover:shadow-xl transform hover:-translate-y-0.5"
+              onClick={(e) => {
+                if (isExpired) {
+                  e.preventDefault();
+                  return;
+                }
+                handleNavClick(e, '#packages');
+              }}
+              className={`px-6 py-2 rounded-full font-bold transition-all shadow-md ${
+                isExpired 
+                  ? 'bg-gray-400 text-gray-200 cursor-not-allowed opacity-60' 
+                  : 'bg-brandRed hover:bg-red-600 text-white hover:shadow-xl transform hover:-translate-y-0.5'
+              }`}
             >
-              Get Credits
+              {isExpired ? 'Offer Ended' : 'Get Credits'}
             </a>
           </div>
 
@@ -115,11 +127,19 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenModal }) => {
                <a 
                   href="#packages"
                   onClick={(e) => {
+                    if (isExpired) {
+                      e.preventDefault();
+                      return;
+                    }
                     handleNavClick(e, '#packages');
                   }}
-                  className="block w-full text-center mt-4 bg-brandRed text-white px-3 py-3 rounded-md font-bold"
+                  className={`block w-full text-center mt-4 px-3 py-3 rounded-md font-bold ${
+                    isExpired 
+                      ? 'bg-gray-400 text-gray-200 cursor-not-allowed opacity-60' 
+                      : 'bg-brandRed text-white'
+                  }`}
                 >
-                  Get Credits
+                  {isExpired ? 'Offer Ended' : 'Get Credits'}
                 </a>
             </div>
           </motion.div>

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Package } from '../types';
 import { Camera, Layers, Zap, Check, Snowflake, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useOffer } from '../contexts/OfferContext';
 
 interface PackagesProps {
   onOpenModal: (packageId: string) => void;
@@ -38,6 +39,7 @@ const packages: Package[] = [
 ];
 
 const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
+  const { isExpired } = useOffer();
   const [showForm, setShowForm] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
 
@@ -120,13 +122,16 @@ const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
               </ul>
 
               <button 
-                onClick={() => onOpenModal(pkg.id)}
-                className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-[1.02] ${
-                  index === 2 
-                    ? 'bg-brandRed text-white hover:bg-red-600 shadow-lg hover:shadow-brandRed/40' 
-                    : 'bg-brandBlue text-white hover:bg-slate-800 shadow-md'
-              }`}>
-                Choose {pkg.name}
+                onClick={() => !isExpired && onOpenModal(pkg.id)}
+                disabled={isExpired}
+                className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 transform ${
+                  isExpired 
+                    ? 'bg-gray-400 text-gray-200 cursor-not-allowed opacity-60' 
+                    : index === 2 
+                      ? 'bg-brandRed text-white hover:bg-red-600 shadow-lg hover:shadow-brandRed/40 hover:scale-[1.02]' 
+                      : 'bg-brandBlue text-white hover:bg-slate-800 shadow-md hover:scale-[1.02]'
+                }`}>
+                {isExpired ? 'Offer Ended' : `Choose ${pkg.name}`}
               </button>
             </motion.div>
           ))}
