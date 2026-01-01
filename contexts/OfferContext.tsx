@@ -20,7 +20,8 @@ interface OfferProviderProps {
 }
 
 export const OfferProvider: React.FC<OfferProviderProps> = ({ children }) => {
-  const [isExpired, setIsExpired] = useState(false);
+  // TEMPORARY: Set to true to preview expired state. Change back to false when done.
+  const [isExpired, setIsExpired] = useState(true);
 
   useEffect(() => {
     // Check expiration status on mount

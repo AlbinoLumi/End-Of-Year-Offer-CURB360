@@ -122,16 +122,15 @@ const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
               </ul>
 
               <button 
-                onClick={() => !isExpired && onOpenModal(pkg.id)}
-                disabled={isExpired}
-                className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 transform ${
-                  isExpired 
-                    ? 'bg-gray-400 text-gray-200 cursor-not-allowed opacity-60' 
-                    : index === 2 
-                      ? 'bg-brandRed text-white hover:bg-red-600 shadow-lg hover:shadow-brandRed/40 hover:scale-[1.02]' 
-                      : 'bg-brandBlue text-white hover:bg-slate-800 shadow-md hover:scale-[1.02]'
-                }`}>
-                {isExpired ? 'Offer Ended' : `Choose ${pkg.name}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // Completely disabled - do nothing
+                }}
+                disabled={true}
+                className="w-full py-4 rounded-xl font-bold text-lg bg-gray-400 text-gray-200 cursor-not-allowed opacity-60"
+              >
+                Offer Ended
               </button>
             </motion.div>
           ))}
@@ -140,18 +139,26 @@ const Packages: React.FC<PackagesProps> = ({ onOpenModal }) => {
         {/* Need More Credits Section */}
         <div className="mt-12 text-center">
           <div className="inline-flex flex-col items-center gap-4">
-            <div className="inline-flex items-center gap-3 bg-brandBlue/5 border-2 border-brandBlue/20 rounded-full px-6 py-3 hover:border-brandRed/40 hover:bg-brandRed/5 transition-all">
-              <span className="text-brandBlue font-semibold">WANT MORE CREDITS?</span>
-              <button
-                onClick={() => setShowForm(!showForm)}
-                className="text-brandRed hover:text-red-600 font-bold text-lg transition-colors inline-flex items-center gap-1"
-              >
-                Let's talk <ChevronDown size={18} className={`transition-transform ${showForm ? 'rotate-180' : ''}`} />
-              </button>
+            <div className={`inline-flex items-center gap-3 rounded-full px-6 py-3 transition-all ${
+              isExpired 
+                ? 'bg-gray-100 border-2 border-gray-300 opacity-60' 
+                : 'bg-brandBlue/5 border-2 border-brandBlue/20 hover:border-brandRed/40 hover:bg-brandRed/5'
+            }`}>
+              <span className={`font-semibold ${isExpired ? 'text-gray-500' : 'text-brandBlue'}`}>
+                {isExpired ? 'OFFER HAS ENDED' : 'WANT MORE CREDITS?'}
+              </span>
+              {!isExpired && (
+                <button
+                  onClick={() => setShowForm(!showForm)}
+                  className="text-brandRed hover:text-red-600 font-bold text-lg transition-colors inline-flex items-center gap-1"
+                >
+                  Let's talk <ChevronDown size={18} className={`transition-transform ${showForm ? 'rotate-180' : ''}`} />
+                </button>
+              )}
             </div>
             
             <AnimatePresence>
-              {showForm && (
+              {showForm && !isExpired && (
                 <motion.div
                   ref={formRef}
                   initial={{ opacity: 0, y: -10 }}

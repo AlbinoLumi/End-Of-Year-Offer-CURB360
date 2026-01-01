@@ -92,30 +92,24 @@ const Footer: React.FC<FooterProps> = ({ onOpenModal }) => {
           {/* Urgent CTA */}
           <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20">
             <h4 className="text-lg font-bold mb-2 text-white">
-              {isExpired ? 'Offer Has Ended' : 'Offer Ends Dec 31st!'}
+              {isExpired ? 'Thank You for Your Participation!' : 'Offer Ends Dec 31st!'}
             </h4>
             <p className="text-sm text-gray-200 mb-4">
               {isExpired 
-                ? 'Thank you for your interest! Please check back for future promotions.' 
+                ? 'This exclusive offer has ended. We\'re grateful to everyone who participated!' 
                 : 'Book now and make 2026 your year of growth.'}
             </p>
-            <a 
-                href="#packages"
+            <button
+                disabled={true}
                 onClick={(e) => {
-                  if (isExpired) {
-                    e.preventDefault();
-                    return;
-                  }
-                  handleScroll(e, '#packages');
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // Completely disabled - do nothing
                 }}
-                className={`block w-full text-center font-bold py-3 rounded-lg transition-colors ${
-                  isExpired 
-                    ? 'bg-gray-500 text-gray-200 cursor-not-allowed opacity-60' 
-                    : 'bg-brandRed hover:bg-red-600 text-white'
-                }`}
+                className="block w-full text-center font-bold py-3 rounded-lg bg-gray-500 text-gray-200 cursor-not-allowed opacity-60"
             >
-                {isExpired ? 'Offer Ended' : 'Get My Credits'}
-            </a>
+                Offer Ended
+            </button>
           </div>
         </div>
 

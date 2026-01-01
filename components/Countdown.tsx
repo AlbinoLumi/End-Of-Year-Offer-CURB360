@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Timer, Snowflake, XCircle } from 'lucide-react';
+import { Timer, Snowflake, CheckCircle2, Sparkles } from 'lucide-react';
 import { useOffer } from '../contexts/OfferContext';
 
 const Countdown: React.FC = () => {
@@ -12,6 +12,11 @@ const Countdown: React.FC = () => {
   });
 
   useEffect(() => {
+    // If already expired, don't run the countdown timer
+    if (isExpired) {
+      return;
+    }
+    
     // Set deadline to December 31st of current year at 11:59:59 PM Pacific Time (San Diego, CA)
     const currentYear = new Date().getFullYear();
     
@@ -95,7 +100,8 @@ const Countdown: React.FC = () => {
       // Calculate difference
       const distance = deadlineUTC - nowPacificUTC;
 
-      if (distance < 0) {
+      // If expired or at 0, show expired state immediately
+      if (distance <= 0) {
         clearInterval(timer);
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         setIsExpired(true);
@@ -113,20 +119,36 @@ const Countdown: React.FC = () => {
     return () => clearInterval(timer);
   }, [setIsExpired]);
 
-  // Don't render if expired
-  if (isExpired) {
+  // Don't render if expired OR if countdown has reached zero
+  if (isExpired || (timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0)) {
     return (
-      <div className="w-full bg-gray-100 backdrop-blur-sm border-y border-gray-300 py-8 relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 flex flex-col items-center justify-center gap-4 text-center relative z-10">
-          <div className="flex items-center gap-3">
-            <XCircle className="text-brandRed" size={40} />
-            <h3 className="text-2xl md:text-3xl font-bold text-gray-700">
-              Offer Has Ended
+      <div className="w-full bg-gradient-to-b from-gray-50 to-white backdrop-blur-sm border-y border-gray-200 py-12 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4 flex flex-col items-center justify-center gap-6 text-center relative z-10">
+          <div className="flex flex-col items-center gap-4">
+            <div className="relative">
+              <div className="p-4 bg-gradient-to-br from-brandRed/20 to-brandBlue/20 rounded-full">
+                <CheckCircle2 className="text-brandRed" size={48} strokeWidth={2.5} />
+              </div>
+              <div className="absolute -top-1 -right-1">
+                <Sparkles className="text-brandRed animate-pulse" size={20} />
+              </div>
+              <div className="absolute -bottom-1 -left-1">
+                <Sparkles className="text-brandBlue animate-pulse" size={16} style={{ animationDelay: '0.5s' }} />
+              </div>
+            </div>
+            <h3 className="text-3xl md:text-4xl font-bold text-brandBlue">
+              Thank You for Your Participation!
             </h3>
+            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-brandRed to-transparent"></div>
           </div>
-          <p className="text-lg text-gray-600 max-w-2xl">
-            Thank you for your interest! This exclusive offer has ended. Please check back for future promotions or contact us directly to learn about our current services.
-          </p>
+          <div className="space-y-4 max-w-2xl">
+            <p className="text-xl text-gray-700 leading-relaxed">
+              This exclusive end-of-year offer has now ended. We're incredibly grateful to everyone who participated and took advantage of this special opportunity.
+            </p>
+            <p className="text-lg text-gray-600 leading-relaxed">
+              Your support means the world to us, and we look forward to serving you in 2026. Please check back for future promotions or contact us directly to learn about our current services.
+            </p>
+          </div>
         </div>
       </div>
     );

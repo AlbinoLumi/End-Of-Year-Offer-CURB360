@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { X, XCircle } from 'lucide-react';
+import { X, CheckCircle2, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useOffer } from '../contexts/OfferContext';
 
@@ -24,12 +24,17 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, packageId 
     };
   }, [isOpen]);
   
-  // Close modal if expired
+  // Close modal if expired (immediate check)
   useEffect(() => {
-    if (isExpired && isOpen) {
+    if (isExpired) {
       onClose();
     }
-  }, [isExpired, isOpen, onClose]);
+  }, [isExpired, onClose]);
+  
+  // Prevent modal from rendering at all if expired
+  if (isExpired) {
+    return null;
+  }
 
   // Determine which form URL to use
   const isJumpstart = packageId === 'p1';
@@ -52,9 +57,14 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, packageId 
     ? 'The Ultimate Pack – Spend $1000, Get $500 in Credits!'
     : 'GET $250 TO SPEND WITH CURB360 ON ANY PACKAGE IN 2024!';
 
+  // Don't render anything if expired
+  if (isExpired) {
+    return null;
+  }
+
   return (
     <AnimatePresence>
-      {isOpen && (
+      {isOpen && !isExpired && (
         <>
           {/* Backdrop */}
           <motion.div
@@ -90,14 +100,29 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, packageId 
               <div className="flex-grow overflow-y-auto bg-brandBlue p-8">
                 {isExpired ? (
                   <div className="flex flex-col items-center justify-center text-center py-12">
-                    <XCircle className="text-brandRed mb-4" size={64} />
-                    <h4 className="text-2xl font-bold text-white mb-4">Offer Has Ended</h4>
-                    <p className="text-gray-200 text-lg mb-6 max-w-md">
-                      Thank you for your interest! This exclusive offer has ended. Please check back for future promotions or contact us directly to learn about our current services.
+                    <div className="relative mb-6">
+                      <div className="p-5 bg-gradient-to-br from-brandRed/30 to-brandBlue/30 rounded-full">
+                        <CheckCircle2 className="text-brandRed" size={64} strokeWidth={2.5} />
+                      </div>
+                      <div className="absolute -top-2 -right-2">
+                        <Sparkles className="text-brandRed animate-pulse" size={24} />
+                      </div>
+                      <div className="absolute -bottom-2 -left-2">
+                        <Sparkles className="text-white animate-pulse" size={20} style={{ animationDelay: '0.5s' }} />
+                      </div>
+                    </div>
+                    <h4 className="text-3xl font-bold text-white mb-4">Thank You for Your Participation!</h4>
+                    <div className="w-20 h-1 bg-gradient-to-r from-transparent via-brandRed to-transparent mb-6"></div>
+                    <p className="text-gray-200 text-lg mb-4 max-w-md leading-relaxed">
+                      This exclusive end-of-year offer has now ended. We're incredibly grateful to everyone who participated and took advantage of this special opportunity.
                     </p>
-                    <div className="space-y-2 text-gray-300">
-                      <p><strong>Email:</strong> <a href="mailto:support@curb360.com" className="text-brandRed hover:text-red-400">support@curb360.com</a></p>
-                      <p><strong>Phone:</strong> <a href="tel:8332872360" className="text-brandRed hover:text-red-400">833-287-2360</a></p>
+                    <p className="text-gray-300 mb-8 max-w-md leading-relaxed">
+                      Your support means the world to us, and we look forward to serving you in 2026. Please contact us directly to learn about our current services.
+                    </p>
+                    <div className="space-y-3 text-gray-300 bg-white/5 rounded-xl p-6 max-w-md">
+                      <p className="text-white font-semibold mb-2">Get in Touch:</p>
+                      <p><strong>Email:</strong> <a href="mailto:support@curb360.com" className="text-brandRed hover:text-red-400 transition-colors">support@curb360.com</a></p>
+                      <p><strong>Phone:</strong> <a href="tel:8332872360" className="text-brandRed hover:text-red-400 transition-colors">833-287-2360</a></p>
                     </div>
                   </div>
                 ) : (

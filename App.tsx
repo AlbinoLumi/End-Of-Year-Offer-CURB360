@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Countdown from './components/Countdown';
@@ -15,9 +15,17 @@ function AppContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPackageId, setSelectedPackageId] = useState<string | null>(null);
 
-  const openModal = (packageId?: string) => {
-    // Prevent opening modal if offer has expired
+  // Force close modal if expired
+  useEffect(() => {
     if (isExpired) {
+      setIsModalOpen(false);
+    }
+  }, [isExpired]);
+
+  const openModal = (packageId?: string) => {
+    // Prevent opening modal if offer has expired - multiple checks
+    if (isExpired) {
+      setIsModalOpen(false);
       return;
     }
     if (packageId) {
@@ -25,7 +33,10 @@ function AppContent() {
     } else {
       setSelectedPackageId(null);
     }
-    setIsModalOpen(true);
+    // Only set to open if not expired
+    if (!isExpired) {
+      setIsModalOpen(true);
+    }
   };
 
   const closeModal = () => setIsModalOpen(false);
@@ -55,7 +66,7 @@ function AppContent() {
       </div>
       
       <BookingModal 
-        isOpen={isModalOpen} 
+        isOpen={isModalOpen && !isExpired} 
         onClose={closeModal} 
         packageId={selectedPackageId}
       />

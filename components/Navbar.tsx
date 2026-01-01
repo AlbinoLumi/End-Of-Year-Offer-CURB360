@@ -73,23 +73,17 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenModal }) => {
                 {link.label}
               </a>
             ))}
-            <a 
-              href="#packages"
+            <button
+              disabled={true}
               onClick={(e) => {
-                if (isExpired) {
-                  e.preventDefault();
-                  return;
-                }
-                handleNavClick(e, '#packages');
+                e.preventDefault();
+                e.stopPropagation();
+                // Completely disabled - do nothing
               }}
-              className={`px-6 py-2 rounded-full font-bold transition-all shadow-md ${
-                isExpired 
-                  ? 'bg-gray-400 text-gray-200 cursor-not-allowed opacity-60' 
-                  : 'bg-brandRed hover:bg-red-600 text-white hover:shadow-xl transform hover:-translate-y-0.5'
-              }`}
+              className="px-6 py-2 rounded-full font-bold bg-gray-400 text-gray-200 cursor-not-allowed opacity-60"
             >
-              {isExpired ? 'Offer Ended' : 'Get Credits'}
-            </a>
+              Offer Ended
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -124,23 +118,17 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenModal }) => {
                   {link.label}
                 </a>
               ))}
-               <a 
-                  href="#packages"
+               <button
+                  disabled={true}
                   onClick={(e) => {
-                    if (isExpired) {
-                      e.preventDefault();
-                      return;
-                    }
-                    handleNavClick(e, '#packages');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Completely disabled - do nothing
                   }}
-                  className={`block w-full text-center mt-4 px-3 py-3 rounded-md font-bold ${
-                    isExpired 
-                      ? 'bg-gray-400 text-gray-200 cursor-not-allowed opacity-60' 
-                      : 'bg-brandRed text-white'
-                  }`}
+                  className="block w-full text-center mt-4 px-3 py-3 rounded-md font-bold bg-gray-400 text-gray-200 cursor-not-allowed opacity-60"
                 >
-                  {isExpired ? 'Offer Ended' : 'Get Credits'}
-                </a>
+                  Offer Ended
+                </button>
             </div>
           </motion.div>
         )}
