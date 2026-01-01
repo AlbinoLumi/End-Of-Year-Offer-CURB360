@@ -20,14 +20,13 @@ interface OfferProviderProps {
 }
 
 export const OfferProvider: React.FC<OfferProviderProps> = ({ children }) => {
-  // TEMPORARY: Set to true to preview expired state. Change back to false when done.
-  const [isExpired, setIsExpired] = useState(true);
+  const [isExpired, setIsExpired] = useState(false);
 
   useEffect(() => {
     // Check expiration status on mount
     const checkExpiration = () => {
-      const currentYear = new Date().getFullYear();
-      const deadlinePST = new Date(`${currentYear}-12-31T23:59:59-08:00`);
+      // Offer ends December 31, 2025 at 11:59:59 PM Pacific Time
+      const deadlinePST = new Date(`2025-12-31T23:59:59-08:00`);
       const deadlineUTC = deadlinePST.getTime();
       
       // Helper function to get current time in Pacific Time as milliseconds since epoch

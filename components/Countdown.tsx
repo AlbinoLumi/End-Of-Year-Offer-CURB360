@@ -17,9 +17,7 @@ const Countdown: React.FC = () => {
       return;
     }
     
-    // Set deadline to December 31st of current year at 11:59:59 PM Pacific Time (San Diego, CA)
-    const currentYear = new Date().getFullYear();
-    
+    // Set deadline to December 31st, 2025 at 11:59:59 PM Pacific Time (San Diego, CA)
     // Helper function to get current time in Pacific Time as milliseconds since epoch
     // Returns the UTC milliseconds that represent "now" in Pacific timezone
     const getCurrentPacificTimeMs = () => {
@@ -88,9 +86,9 @@ const Countdown: React.FC = () => {
       return pacificAsUTC - offsetMs;
     };
 
-    // Create deadline: December 31, 23:59:59 Pacific Time
+    // Create deadline: December 31, 2025, 23:59:59 Pacific Time
     // December 31 is always PST (UTC-8), not PDT
-    const deadlinePST = new Date(`${currentYear}-12-31T23:59:59-08:00`);
+    const deadlinePST = new Date(`2025-12-31T23:59:59-08:00`);
     const deadlineUTC = deadlinePST.getTime();
 
     const timer = setInterval(() => {
